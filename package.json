@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "node node_modules/babel/bin/babel-node app/main.js"
+  },
+  "dependencies": {
+    "babel": "^4.7.3",
+    "bookshelf": "^0.7.9",
+    "express": "^4.12.2"
+  }
+}
