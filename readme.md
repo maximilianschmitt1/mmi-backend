@@ -13,6 +13,7 @@
 * `vagrant ssh` - login auf der virtual machine
 * `cd /var/www/app` - wechselt ins app-verzeichnis
 * `npm start` - startet das backend
+* [http://192.168.55.55](http://192.168.55.55)
 
 # server anhalten
 
