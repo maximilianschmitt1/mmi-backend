@@ -28,25 +28,9 @@ sudo apt-get update
 sudo apt-get install -y nodejs
 sudo chown -R $USER ~/.npm
 
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password root"
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password root"
-
-# install mysql
-sudo apt-get install -y --force-yes mysql-server
-
-# 0.0.0.0 instead of 127.0.0.1
-sed -i "s/bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
-
-# give root user with root password privileges to access from outside
-mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES";
-mysql -uroot -proot -e "CREATE DATABASE root;"
-# mysql -uroot -proot -e "SET PASSWORD = PASSWORD('cleartext password');"
-service mysql restart
-
-# install pm2
-sudo npm install -g pm2
-
-# run app setup
-cd /var/www/app # we have to cd here because of environment variables
-sudo npm install
-npm run setup
+# install mongodb
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo service mongod restart

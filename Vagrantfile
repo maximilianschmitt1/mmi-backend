@@ -10,8 +10,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.hostname = "webapp.dev"
   config.vm.network :private_network, ip: server_ip
-  config.vm.network :public_network, bridge: "en1: Wi-Fi (AirPort)"
-  config.vm.network :forwarded_port, guest: 8080, host: 8080 # api
+  # config.vm.network :public_network, bridge: "en1: Wi-Fi (AirPort)"
+  # config.vm.network :forwarded_port, guest: 8080, host: 8080 # api
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/var/www/app",
