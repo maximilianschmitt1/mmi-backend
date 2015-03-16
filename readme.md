@@ -6,3 +6,7 @@
 * `cd mmi-backend`
 * `vagrant up`
 * installation abwarten
+
+# todo
+
+* move from dnode to rest

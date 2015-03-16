@@ -1,0 +1,19 @@
+{
+  "apps" : [
+    {
+      "name"   : "api",
+      "cwd"    : "services/api",
+      "script" : "bin/start.sh"
+    },
+    {
+      "name"   : "auth",
+      "cwd"    : "services/auth",
+      "script" : "bin/start.sh"
+    },
+    {
+      "name"   : "habits",
+      "cwd"    : "services/habits",
+      "script" : "bin/start.sh"
+    }
+  ]
+}

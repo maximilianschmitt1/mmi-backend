@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "axios": "^0.5.2",
+    "babel": "^4.7.6",
+    "co": "^4.4.0",
+    "mongodb-promises": "0.0.17"
+  }
+}

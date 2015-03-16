@@ -1,54 +1,35 @@
 'use strict';
 
 let jwt        = require('jwt-simple');
-let secret     = require('./config').secret;
-let db         = require('./db');
+let secret     = require('../config').secret;
+let db         = require('../db');
 let co         = require('co');
 let errors     = require('./errors');
-let sanee      = require('sanee');
 let omit       = require('object.omit');
 let thenifyAll = require('thenify-all');
 let bcrypt     = thenifyAll(require('bcrypt'));
-let valee      = require('valee');
+let validate   = require('./validate');
+let sanitize   = require('./sanitize');
 
 let auth = {
   register(payload) {
-    let sanitize = sanee({
-      email: sanee.trim().normalizeEmail({ lowercase: true }),
-      password: sanee.toString(),
-      passwordConfirmation: sanee.toString()
-    });
-
-    let userData = sanitize(payload);
-
-    let validate = valee({
-      email: valee.isEmail(),
-      password: valee.isLength(6),
-      passwordConfirmation: valee.equals(userData.password)
-    });
-
-    let validationErrors = validate(userData);
-
-    if (Object.keys(validationErrors).length > 0) {
-      throw new errors.ValidationError('', { invalidFields: validationErrors });
-    }
-
     return co(function*() {
+      let userData = sanitize.registration(payload);
+      yield validate.registration(userData);
+
       userData.password = yield bcrypt.hash(userData.password, yield bcrypt.genSalt(10));
+
       let users = db.collection('users');
       let result = yield users.insert(omit(userData, 'passwordConfirmation'));
+
       return omit(result[0], 'password');
     });
   },
+
   authenticate(payload) {
-    let sanitize = sanee({
-      email: sanee.trim().normalizeEmail({ lowercase: true }),
-      password: sanee.toString()
-    });
-
-    let userData = sanitize(payload);
-
     return co(function*() {
+      let userData = sanitize.authentication(payload);
+
       let users = db.collection('users');
       let user = yield users.findOne({ email: userData.email });
 
@@ -63,6 +44,27 @@ let auth = {
       }
 
       return jwt.encode({ id: user._id }, secret);
+    });
+  },
+
+  identify(payload) {
+    let token = payload.authToken;
+    let userId;
+
+    try {
+      userId = jwt.decode(token, secret).id;
+    } catch(err) {
+      throw new errors.InvalidTokenError();
+    }
+
+    return co(function*() {
+      let user = yield db.collection('users').findOne({ _id: new db.ObjectID(userId) });
+
+      if (!user) {
+        throw new errors.ResourceNotFoundError('This token identifies a user not known to the system');
+      }
+
+      return omit(user, 'password');
     });
   }
 };

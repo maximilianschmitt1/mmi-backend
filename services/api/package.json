@@ -1,10 +1,7 @@
 {
   "dependencies": {
-    "amqplib": "^0.3.1",
+    "axios": "^0.5.2",
     "babel": "^4.7.7",
-    "dnode": "^1.2.0"
-  },
-  "scripts": {
-    "start": "node node_modules/babel/bin/babel-node main.js"
+    "express": "^4.12.2"
   }
 }

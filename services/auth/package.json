@@ -4,7 +4,6 @@
     "bcrypt": "^0.8.1",
     "co": "^4.4.0",
     "create-error": "^0.3.1",
-    "dnode": "^1.2.0",
     "jwt-simple": "^0.2.0",
     "mongodb-promises": "0.0.17",
     "object.omit": "^0.2.1",
@@ -12,8 +11,5 @@
     "thenify": "^3.1.0",
     "thenify-all": "^1.6.0",
     "valee": "0.0.1"
-  },
-  "scripts": {
-    "start": "node node_modules/babel/bin/babel-node main.js"
   }
 }
