@@ -1,12 +1,20 @@
-# installation (muss nur einmal gemacht werden)
+# dependencies
 
-* [virtualbox](https://www.vagrantup.com/downloads.html) installieren
-* [vagrant](https://www.vagrantup.com/) installieren
-* `git clone https://github.com/maximilianschmitt1/mmi-backend`
-* `cd mmi-backend`
-* `vagrant up`
-* installation abwarten
+* [virtualbox](https://www.vagrantup.com/downloads.html)
+* [vagrant](https://www.vagrantup.com/)
 
-# todo
+# installation
 
-* move from dnode to rest
+```bash
+git clone https://github.com/maximilianschmitt1/mmi-backend
+cd mmi-backend
+vagrant up
+```
+
+# start
+
+```bash
+vagrant ssh
+cd /var/www/app
+pm2 start ecosystem.json
+```
