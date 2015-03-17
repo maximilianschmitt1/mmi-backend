@@ -29,7 +29,7 @@ let habits = {
 
   delete: function(payload) {
     return co(function*() {
-      let habitId = sanitize.delete(payload.habitId);
+      let habitId = payload.habitId;
       let authToken = payload.authToken;
 
       let user = yield userForAuthToken(authToken);
@@ -48,6 +48,31 @@ let habits = {
       yield habits.remove({ _id: new db.ObjectID(habitId) });
 
       return habit;
+    });
+  },
+
+  update: function(payload) {
+    return co(function*() {
+      let habitData = sanitize.update(payload.habit);
+      let habitId   = payload.habitId;
+      let authToken = payload.authToken;
+
+      let user = yield userForAuthToken(authToken);
+
+      let habits = db.collection('habits');
+      let habit = yield habits.findOne({ _id: new db.ObjectID(habitId) });
+
+      if (!habit) {
+        throw new ResourceNotFoundError('', { resourceType: 'habit' });
+      }
+
+      if (habit.userId !== user._id) {
+        throw new AuthorizationError('This habit does not belong to you');
+      }
+
+      yield habits.update({ _id: new db.ObjectID(habitId) }, habitData);
+
+      return habits.findOne({ _id: new db.ObjectID(habitId) });
     });
   }
 };

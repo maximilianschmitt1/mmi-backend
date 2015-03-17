@@ -14,6 +14,11 @@ let server = service(habits, [
     method: 'delete',
     returns: 'habit',
     catch: ['AuthenticationError', 'AuthorizationError', 'ResourceNotFoundError']
+  },
+  {
+    method: 'update',
+    returns: 'habit',
+    catch: ['AuthenticationError', 'AuthorizationError', 'ResourceNotFoundError']
   }
 ]);
 

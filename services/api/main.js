@@ -65,4 +65,17 @@ app.get('/habits/create', function(req, res) {
     .catch(err => res.json(err.data));
 });
 
+app.get('/habits/update', function(req, res) {
+  axios
+    .post(habitsService + '/update', {
+      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MDU5ZmQ0MzYyNzIyYWMyNzdhODBkNSJ9.Tad3TwWgBIgtAEvEioanElE3Q878fZrPTtdUe6Dekcg',
+      habitId: '5508b4c5aa6123f214b71298',
+      habit: {
+        name: 'Edited task'
+      }
+    })
+    .then(response => res.json(response.data))
+    .catch(err => res.json(err.data));
+});
+
 app.listen(8080);

@@ -6,9 +6,9 @@ let sanitize = {
   create: sanee({
     name: sanee.trim().toString()
   }),
-  delete: function(habitId) {
-    return habitId;
-  }
+  update: sanee({
+    name: sanee.trim().toString()
+  })
 };
 
 module.exports = sanitize;
