@@ -43,6 +43,16 @@ app.get('/users/create', function(req, res) {
     .catch(err => res.json(err.data));
 });
 
+app.get('/habits/delete', function(req, res) {
+  axios
+    .post(habitsService + '/delete', {
+      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MDU5ZmQ0MzYyNzIyYWMyNzdhODBkNSJ9.Tad3TwWgBIgtAEvEioanElE3Q878fZrPTtdUe6Dekcg',
+      habitId: '5508a7dfd4cf97740a0d2095'
+    })
+    .then(response => res.json(response.data))
+    .catch(err => res.json(err.data));
+});
+
 app.get('/habits/create', function(req, res) {
   axios
     .post(habitsService + '/create', {

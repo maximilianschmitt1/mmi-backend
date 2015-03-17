@@ -1,18 +1,23 @@
 'use strict';
 
-import co from 'co';
-import db from '../db';
-import axios from 'axios';
+let co                    = require('co');
+let axios                 = require('axios');
+let db                    = require('../db');
+let sanitize              = require('./sanitize');
+let createError           = require('create-error');
+let AuthorizationError    = createError('AuthorizationError');
+let ResourceNotFoundError = createError('ResourceNotFoundError');
 
 let authService = 'http://localhost:5001';
 
 let habits = {
   create: function(payload) {
     return co(function*() {
-      let { habit, authToken } = payload;
+      let habit = sanitize.create(payload.habit);
+      let authToken = payload.authToken;
 
-      let authResponse = yield axios.post(authService + '/identify', { authToken });
-      let user = authResponse.data.user;
+      let user = yield userForAuthToken(authToken);
+
       habit.userId = user._id;
 
       let habits = db.collection('habits');
@@ -20,7 +25,37 @@ let habits = {
       
       return result[0];
     });
+  },
+
+  delete: function(payload) {
+    return co(function*() {
+      let habitId = sanitize.delete(payload.habitId);
+      let authToken = payload.authToken;
+
+      let user = yield userForAuthToken(authToken);
+
+      let habits = db.collection('habits');
+      let habit = yield habits.findOne({ _id: new db.ObjectID(habitId) });
+
+      if (!habit) {
+        throw new ResourceNotFoundError('', { resourceType: 'habit' });
+      }
+
+      if (habit.userId !== user._id) {
+        throw new AuthorizationError('This habit does not belong to you');
+      }
+
+      yield habits.remove({ _id: new db.ObjectID(habitId) });
+
+      return habit;
+    });
   }
 };
 
-export default habits;
+function userForAuthToken(authToken) {
+  return axios
+    .post(authService + '/identify', { authToken })
+    .then(res => res.data.user);
+}
+
+module.exports = habits;

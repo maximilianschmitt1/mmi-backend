@@ -8,8 +8,13 @@ let server = service(habits, [
   {
     method: 'create',
     returns: 'habit',
-    catch: ['ValidationError', 'AuthenticationError']
+    catch: 'AuthenticationError'
   },
+  {
+    method: 'delete',
+    returns: 'habit',
+    catch: ['AuthenticationError', 'AuthorizationError', 'ResourceNotFoundError']
+  }
 ]);
 
 server.listen(config.port);

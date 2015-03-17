@@ -1,10 +1,10 @@
 'use strict';
 
-let jwt    = require('jwt-simple');
-let secret = require('../config').secret;
-let co     = require('co');
-let errors = require('./errors');
-let axios  = require('axios');
+let jwt                 = require('jwt-simple');
+let secret              = require('../config').secret;
+let co                  = require('co');
+let AuthenticationError = require('create-error')('AuthenticationError');
+let axios               = require('axios');
 
 let usersService = 'http://localhost:5003';
 
@@ -15,7 +15,7 @@ let auth = {
       let user = response.data.user;
 
       if (!user) {
-        throw new errors.AuthenticationError('Incorrect credentials');
+        throw new AuthenticationError('Incorrect credentials');
       }
 
       return jwt.encode({ id: user._id }, secret);
@@ -29,7 +29,7 @@ let auth = {
     try {
       userId = jwt.decode(token, secret).id;
     } catch(err) {
-      throw new errors.InvalidTokenError('Invalid token');
+      throw new AuthenticationError('Invalid token');
     }
 
     return co(function*() {
@@ -37,7 +37,7 @@ let auth = {
       let user = response.data.user;
 
       if (!user) {
-        throw new errors.InvalidTokenError('This token identifies a user not known to the system');
+        throw new AuthenticationError('This token identifies a user not known to the system');
       }
 
       return user;
