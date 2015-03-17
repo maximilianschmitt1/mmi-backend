@@ -1,17 +1,20 @@
 'use strict';
 
-import sanee from 'sanee';
+let sanee = require('sanee');
 
 let sanitize = {
-  registration: sanee({
+  creation: sanee({
     email: sanee.trim().normalizeEmail({ lowercase: true }),
     password: sanee.toString(),
     passwordConfirmation: sanee.toString()
   }),
-  authentication: sanee({
+  credentials: sanee({
     email: sanee.trim().normalizeEmail({ lowercase: true }),
     password: sanee.toString()
-  })
+  }),
+  get: function(userId) {
+    return userId;
+  }
 };
 
-export default sanitize;
+module.exports = sanitize;

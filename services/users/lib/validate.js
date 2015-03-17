@@ -1,13 +1,12 @@
 'use strict';
 
-import valee from 'valee';
-import co from 'co';
-import db from '../db';
-import errors from './errors';
+let valee           = require('valee');
+let co              = require('co');
+let ValidationError = require('create-error')('ValidationError');
+let db              = require('../db');
 
-// validates and sanitizes user input
 let validate = {
-  registration(userData) {
+  creation: function(userData) {
     return co(function*() {
       let validate = valee({
         email: valee.isEmail(),
@@ -23,10 +22,10 @@ let validate = {
       }
 
       if (Object.keys(validationErrors).length > 0) {
-        throw new errors.ValidationError('', { invalidFields: validationErrors });
+        throw new ValidationError('', { invalidFields: validationErrors });
       }
     });
   }
 };
 
-export default validate;
+module.exports = validate;

@@ -1,14 +1,13 @@
 {
   "dependencies": {
     "axios": "^0.5.2",
-    "babel": "^4.7.6",
+    "babel": "^4.7.13",
     "bcrypt": "^0.8.1",
     "co": "^4.4.0",
     "create-error": "^0.3.1",
-    "jwt-simple": "^0.2.0",
+    "mongodb-promises": "0.0.17",
     "object.omit": "^0.2.1",
     "sanee": "0.0.1",
-    "thenify": "^3.1.0",
     "thenify-all": "^1.6.0",
     "valee": "0.0.1"
   }

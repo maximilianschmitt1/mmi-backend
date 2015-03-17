@@ -14,6 +14,11 @@
       "name"   : "habits",
       "cwd"    : "services/habits",
       "script" : "bin/start.sh"
+    },
+    {
+      "name"   : "users",
+      "cwd"    : "services/users",
+      "script" : "bin/start.sh"
     }
   ]
 }

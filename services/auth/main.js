@@ -7,11 +7,6 @@ let service = require('../../express-service');
 
 let server = service(auth, [
   {
-    method: 'register',
-    returns: 'user',
-    catch: 'ValidationError'
-  },
-  {
     method: 'authenticate',
     returns: 'authToken',
     catch: 'AuthenticationError'
@@ -19,7 +14,7 @@ let server = service(auth, [
   {
     method: 'identify',
     returns: 'user',
-    catch: ['ResourceNotFoundError', 'InvalidTokenError']
+    catch: 'InvalidTokenError'
   }
 ]);
 

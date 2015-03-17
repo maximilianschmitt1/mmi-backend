@@ -19,7 +19,10 @@ let service = function(service, endpoints) {
           res.json(response);
         } catch(err) {
           if (!endpoint.catch || endpoint.catch.indexOf(err.name) === -1) {
-            console.log(err.stack);
+            console.log(err);
+            if (err.stack) {
+              console.log(err.stack);
+            }
 
             res.status(500).json({ error: { name: 'Error', message: 'An unexpected error occurred. ' } });
             return;
