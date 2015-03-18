@@ -41,6 +41,10 @@ let users = {
       let users = db.collection('users');
       let user = yield users.findOne({ _id: new db.ObjectID(userId) });
 
+      if (!user) {
+        return null;
+      }
+
       return omit(user, 'password');
     });
   }

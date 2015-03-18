@@ -1,7 +1,6 @@
 'use strict';
 
 let auth    = require('./lib/auth');
-let port    = require('./config').port;
 let service = require('../../express-service');
 
 let server = service(auth, [
@@ -17,4 +16,4 @@ let server = service(auth, [
   }
 ]);
 
-server.listen(port);
+server.listen(process.env.SERVICE_PORT);

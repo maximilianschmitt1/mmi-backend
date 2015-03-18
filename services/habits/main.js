@@ -1,8 +1,7 @@
 'use strict';
 
-import habits from './lib/habits';
-import config from './config';
-import service from '../../express-service';
+let habits  = require('./lib/habits');
+let service = require('../../express-service');
 
 let server = service(habits, [
   {
@@ -22,4 +21,4 @@ let server = service(habits, [
   }
 ]);
 
-server.listen(config.port);
+server.listen(process.env.SERVICE_PORT);

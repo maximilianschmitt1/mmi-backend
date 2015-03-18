@@ -2,7 +2,6 @@
 
 let service = require('../../express-service');
 let users   = require('./lib/users');
-let port    = 5003;
 
 let server = service(users, [
   {
@@ -20,4 +19,4 @@ let server = service(users, [
   }
 ]);
 
-server.listen(port);
+server.listen(process.env.SERVICE_PORT);

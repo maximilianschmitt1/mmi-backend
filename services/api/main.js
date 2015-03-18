@@ -5,9 +5,9 @@ import axios from 'axios';
 
 let app = express();
 
-let authService   = 'http://localhost:5001';
-let habitsService = 'http://localhost:5002';
-let usersService  = 'http://localhost:5003';
+let authService   = process.env.AUTH_SERVICE_URL;
+let habitsService = process.env.HABITS_SERVICE_URL;
+let usersService  = process.env.USERS_SERVICE_URL;
 
 app.get('/auth/authenticate', function(req, res) {
   axios
@@ -24,7 +24,7 @@ app.get('/auth/authenticate', function(req, res) {
 app.get('/auth/identify', function(req, res) {
   axios
     .post(authService + '/identify', {
-      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MDU5ZmQ0MzYyNzIyYWMyNzdhODBkNSJ9.Tad3TwWgBIgtAEvEioanElE3Q878fZrPTtdUe6Dekcg'
+      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MDljODEwODU3ZGJhZWUxYWE1MzMyZiJ9.3HC4oj7yQzSEFYTiMzg3qKz7F5xa-46HNXYJiIpnsMQ'
     })
     .then(response => res.json(response.data))
     .catch(err => res.json(err.data));
@@ -46,8 +46,8 @@ app.get('/users/create', function(req, res) {
 app.get('/habits/delete', function(req, res) {
   axios
     .post(habitsService + '/delete', {
-      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MDU5ZmQ0MzYyNzIyYWMyNzdhODBkNSJ9.Tad3TwWgBIgtAEvEioanElE3Q878fZrPTtdUe6Dekcg',
-      habitId: '5508a7dfd4cf97740a0d2095'
+      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MDljODEwODU3ZGJhZWUxYWE1MzMyZiJ9.3HC4oj7yQzSEFYTiMzg3qKz7F5xa-46HNXYJiIpnsMQ',
+      habitId: '5509ca71604e63f71f437204'
     })
     .then(response => res.json(response.data))
     .catch(err => res.json(err.data));
@@ -56,7 +56,7 @@ app.get('/habits/delete', function(req, res) {
 app.get('/habits/create', function(req, res) {
   axios
     .post(habitsService + '/create', {
-      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MDU5ZmQ0MzYyNzIyYWMyNzdhODBkNSJ9.Tad3TwWgBIgtAEvEioanElE3Q878fZrPTtdUe6Dekcg',
+      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MDljODEwODU3ZGJhZWUxYWE1MzMyZiJ9.3HC4oj7yQzSEFYTiMzg3qKz7F5xa-46HNXYJiIpnsMQ',
       habit: {
         name: 'Some task'
       }
@@ -68,14 +68,14 @@ app.get('/habits/create', function(req, res) {
 app.get('/habits/update', function(req, res) {
   axios
     .post(habitsService + '/update', {
-      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MDU5ZmQ0MzYyNzIyYWMyNzdhODBkNSJ9.Tad3TwWgBIgtAEvEioanElE3Q878fZrPTtdUe6Dekcg',
-      habitId: '5508b4c5aa6123f214b71298',
+      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MDljODEwODU3ZGJhZWUxYWE1MzMyZiJ9.3HC4oj7yQzSEFYTiMzg3qKz7F5xa-46HNXYJiIpnsMQ',
+      habitId: '5509ca62604e63f71f437203',
       habit: {
-        name: 'Edited task'
+        name: 'Edited habit'
       }
     })
     .then(response => res.json(response.data))
     .catch(err => res.json(err.data));
 });
 
-app.listen(8080);
+app.listen(process.env.SERVICE_PORT);

@@ -8,7 +8,7 @@ let createError           = require('create-error');
 let AuthorizationError    = createError('AuthorizationError');
 let ResourceNotFoundError = createError('ResourceNotFoundError');
 
-let authService = 'http://localhost:5001';
+let authService = process.env.AUTH_SERVICE_URL;
 
 let habits = {
   create: function(payload) {

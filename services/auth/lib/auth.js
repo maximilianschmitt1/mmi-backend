@@ -1,12 +1,13 @@
 'use strict';
 
+let env                 = process.env;
 let jwt                 = require('jwt-simple');
-let secret              = require('../config').secret;
 let co                  = require('co');
 let AuthenticationError = require('create-error')('AuthenticationError');
 let axios               = require('axios');
 
-let usersService = 'http://localhost:5003';
+let tokenSecret         = env.TOKEN_SECRET;
+let usersService        = env.USERS_SERVICE_URL;
 
 let auth = {
   authenticate(payload) {
@@ -18,7 +19,7 @@ let auth = {
         throw new AuthenticationError('Incorrect credentials');
       }
 
-      return jwt.encode({ id: user._id }, secret);
+      return jwt.encode({ id: user._id }, tokenSecret);
     });
   },
 
@@ -27,7 +28,7 @@ let auth = {
     let userId;
 
     try {
-      userId = jwt.decode(token, secret).id;
+      userId = jwt.decode(token, tokenSecret).id;
     } catch(err) {
       throw new AuthenticationError('Invalid token');
     }

@@ -1,24 +1,47 @@
 {
   "apps" : [
     {
-      "name"   : "api",
-      "cwd"    : "services/api",
-      "script" : "bin/start.sh"
+      "name": "api",
+      "cwd": "services/api",
+      "script": "bin/start.sh",
+      "env": {
+        "SERVICE_PORT": "8080",
+        "AUTH_SERVICE_URL": "http://localhost:5001",
+        "HABITS_SERVICE_URL": "http://localhost:5002",
+        "USERS_SERVICE_URL": "http://localhost:5003"
+      }
     },
     {
-      "name"   : "auth",
-      "cwd"    : "services/auth",
-      "script" : "bin/start.sh"
+      "name": "auth",
+      "cwd": "services/auth",
+      "script": "bin/start.sh",
+      "env": {
+        "SERVICE_PORT": 5001,
+        "TOKEN_SECRET": "xxx",
+        "USERS_SERVICE_URL": "http://localhost:5003"
+      }
     },
     {
-      "name"   : "habits",
-      "cwd"    : "services/habits",
-      "script" : "bin/start.sh"
+      "name": "habits",
+      "cwd": "services/habits",
+      "script": "bin/start.sh",
+      "env": {
+        "SERVICE_PORT": 5002,
+        "AUTH_SERVICE_URL": "http://localhost:5001",
+        "DB_HOST": "localhost",
+        "DB_NAME": "habits"
+      }
     },
     {
-      "name"   : "users",
-      "cwd"    : "services/users",
-      "script" : "bin/start.sh"
+      "name": "users",
+      "cwd": "services/users",
+      "script": "bin/start.sh",
+      "env": {
+        "SERVICE_PORT": 5003,
+        "AUTH_SERVICE_URL": "http://localhost:5001",
+        "DB_HOST": "localhost",
+        "DB_NAME": "users"
+      }
     }
   ]
 }
