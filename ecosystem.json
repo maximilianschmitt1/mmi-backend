@@ -2,8 +2,8 @@
   "apps" : [
     {
       "name": "api",
-      "cwd": "services/api",
-      "script": "bin/start.sh",
+      "script": "services/api/main.js",
+      "node_args": ["--es_staging", "--harmony_arrow_functions"],
       "env": {
         "SERVICE_PORT": "8080",
         "AUTH_SERVICE_URL": "http://localhost:5001",
@@ -13,8 +13,8 @@
     },
     {
       "name": "auth",
-      "cwd": "services/auth",
-      "script": "bin/start.sh",
+      "script": "services/auth/main.js",
+      "node_args": ["--es_staging", "--harmony_arrow_functions"],
       "env": {
         "SERVICE_PORT": 5001,
         "TOKEN_SECRET": "xxx",
@@ -23,8 +23,8 @@
     },
     {
       "name": "habits",
-      "cwd": "services/habits",
-      "script": "bin/start.sh",
+      "script": "services/habits/main.js",
+      "node_args": ["--es_staging", "--harmony_arrow_functions"],
       "env": {
         "SERVICE_PORT": 5002,
         "AUTH_SERVICE_URL": "http://localhost:5001",
@@ -34,8 +34,8 @@
     },
     {
       "name": "users",
-      "cwd": "services/users",
-      "script": "bin/start.sh",
+      "script": "services/users/main.js",
+      "node_args": ["--es_staging", "--harmony_arrow_functions"],
       "env": {
         "SERVICE_PORT": 5003,
         "AUTH_SERVICE_URL": "http://localhost:5001",

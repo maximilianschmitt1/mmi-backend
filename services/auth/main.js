@@ -1,7 +1,7 @@
 'use strict';
 
 let auth    = require('./lib/auth');
-let service = require('../../express-service');
+let service = require('express-micro-service');
 
 let server = service(auth, [
   {

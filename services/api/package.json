@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "axios": "^0.5.2",
-    "babel": "^4.7.7",
     "express": "^4.12.2"
   }
 }

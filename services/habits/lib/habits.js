@@ -45,7 +45,11 @@ let habits = {
         throw new AuthorizationError('This habit does not belong to you');
       }
 
-      yield habits.remove({ _id: new db.ObjectID(habitId) });
+      try {
+        yield habits.remove({ _id: new db.ObjectID(habitId) });
+      } catch(err) {
+        console.log(err);
+      }
 
       return habit;
     });

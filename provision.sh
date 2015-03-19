@@ -1,7 +1,7 @@
 #!/bin/bash
 sudo apt-get update
 # common dependencies
-sudo apt-get install -y build-essential git-core
+sudo apt-get install -y curl build-essential git-core
 
 # install nginx
 sudo apt-get update
@@ -22,10 +22,12 @@ server {
 sudo service nginx reload
 
 # install node.js
-sudo apt-get install -y python-software-properties
-sudo apt-add-repository -y ppa:chris-lea/node.js
-sudo apt-get update
-sudo apt-get install -y nodejs
+curl -sL https://deb.nodesource.com/setup_iojs_1.x | sudo bash -
+sudo apt-get install -y iojs
+# sudo apt-get install -y python-software-properties
+# sudo apt-add-repository -y ppa:chris-lea/node.js
+# sudo apt-get update
+# sudo apt-get install -y nodejs
 sudo chown -R $USER ~/.npm
 
 # install mongodb

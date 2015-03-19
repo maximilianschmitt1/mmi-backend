@@ -1,7 +1,7 @@
 'use strict';
 
 let habits  = require('./lib/habits');
-let service = require('../../express-service');
+let service = require('express-micro-service');
 
 let server = service(habits, [
   {

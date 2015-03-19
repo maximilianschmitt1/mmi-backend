@@ -4,8 +4,9 @@ server_ip             = "192.168.55.55"
 server_memory         = "256" # MB
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  # config.vm.box = "precise64"
+  config.vm.box = "ubuntu/trusty64"
+  # config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
   config.vm.hostname = "webapp.dev"
   config.vm.network :private_network, ip: server_ip
