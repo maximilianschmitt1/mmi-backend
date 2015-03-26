@@ -20,7 +20,7 @@ app.post('/auth/authenticate', function(req, res) {
   axios
     .post(authService + '/authenticate', { credentials })
     .then(response => res.json(response.data))
-    .catch(err => res.json(err.data));
+    .catch(err => res.status(err.status).json(err.data));
 });
 
 app.get('/auth/identify', function(req, res) {
@@ -29,7 +29,7 @@ app.get('/auth/identify', function(req, res) {
       authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MGEzNDljOWNjNmJiZWQxY2U5NzM5OCJ9.M0NXmL_fHvbLgpXtsrUblJp-bhyzYlC4bCi6WcjOfbY'
     })
     .then(response => res.json(response.data))
-    .catch(err => res.json(err.data));
+    .catch(err => res.status(err.status).json(err.data));
 });
 
 app.post('/users', function(req, res) {
@@ -38,7 +38,7 @@ app.post('/users', function(req, res) {
   axios
     .post(usersService + '/create', { user })
     .then(response => res.json(response.data))
-    .catch(err => res.json(err.data));
+    .catch(err => res.status(err.status).json(err.data));
 });
 
 app.get('/habits/delete', function(req, res) {
@@ -48,7 +48,7 @@ app.get('/habits/delete', function(req, res) {
       habitId: '5509ca71604e63f71f437204'
     })
     .then(response => res.json(response.data))
-    .catch(err => res.json(err.data));
+    .catch(err => res.status(err.status).json(err.data));
 });
 
 app.get('/habits/create', function(req, res) {
@@ -60,7 +60,7 @@ app.get('/habits/create', function(req, res) {
       }
     })
     .then(response => res.json(response.data))
-    .catch(err => res.json(err.data));
+    .catch(err => res.status(err.status).json(err.data));
 });
 
 app.get('/habits/update', function(req, res) {
@@ -73,7 +73,7 @@ app.get('/habits/update', function(req, res) {
       }
     })
     .then(response => res.json(response.data))
-    .catch(err => res.json(err.data));
+    .catch(err => res.status(err.status).json(err.data));
 });
 
 app.listen(process.env.SERVICE_PORT);
