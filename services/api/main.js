@@ -1,8 +1,9 @@
 'use strict';
 
-let express = require('express');
-let axios   = require('axios');
-let cors    = require('cors');
+let express    = require('express');
+let axios      = require('axios');
+let cors       = require('cors');
+let bodyParser = require('body-parser');
 
 let app = express();
 
@@ -11,15 +12,13 @@ let habitsService = process.env.HABITS_SERVICE_URL;
 let usersService  = process.env.USERS_SERVICE_URL;
 
 app.use(cors());
+app.use(bodyParser.json());
 
-app.get('/auth/authenticate', function(req, res) {
+app.post('/auth/authenticate', function(req, res) {
+  let credentials = req.body;
+
   axios
-    .post(authService + '/authenticate', {
-      credentials: {
-        email: 'maximilian.schmitt@googlemail.com',
-        password: '123456'
-      }
-    })
+    .post(authService + '/authenticate', { credentials })
     .then(response => res.json(response.data))
     .catch(err => res.json(err.data));
 });
@@ -33,15 +32,11 @@ app.get('/auth/identify', function(req, res) {
     .catch(err => res.json(err.data));
 });
 
-app.get('/users/create', function(req, res) {
+app.post('/users', function(req, res) {
+  let user = req.body;
+
   axios
-    .post(usersService + '/create', {
-      user: {
-        email: 'maximilian.schmitt@googlemail.com',
-        password: '123456',
-        passwordConfirmation: '123456'
-      }
-    })
+    .post(usersService + '/create', { user })
     .then(response => res.json(response.data))
     .catch(err => res.json(err.data));
 });

@@ -28,7 +28,7 @@ let users = {
       let users = db.collection('users');
       let user = yield users.findOne({ email: credentials.email });
 
-      if (user && !(yield bcrypt.compare(credentials.password, user.password))) {
+      if (!user || (user && !(yield bcrypt.compare(credentials.password, user.password)))) {
         return null;
       }
 
