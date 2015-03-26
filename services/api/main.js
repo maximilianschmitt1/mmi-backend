@@ -1,9 +1,9 @@
 'use strict';
 
-let express    = require('express');
-let axios      = require('axios');
-let cors       = require('cors');
-let bodyParser = require('body-parser');
+let express     = require('express');
+let axios       = require('axios');
+let cors        = require('cors');
+let bodyParser  = require('body-parser');
 
 let app = express();
 
@@ -24,10 +24,10 @@ app.post('/auth/authenticate', function(req, res) {
 });
 
 app.get('/auth/identify', function(req, res) {
+  let authToken = req.headers['auth-token'];
+
   axios
-    .post(authService + '/identify', {
-      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MGEzNDljOWNjNmJiZWQxY2U5NzM5OCJ9.M0NXmL_fHvbLgpXtsrUblJp-bhyzYlC4bCi6WcjOfbY'
-    })
+    .post(authService + '/identify', { authToken })
     .then(response => res.json(response.data))
     .catch(err => res.status(err.status).json(err.data));
 });
@@ -51,10 +51,12 @@ app.get('/habits/delete', function(req, res) {
     .catch(err => res.status(err.status).json(err.data));
 });
 
-app.get('/habits/create', function(req, res) {
+app.post('/habits', function(req, res) {
+  let authToken = req.headers['auth-token'];
+
   axios
     .post(habitsService + '/create', {
-      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MGEzNDljOWNjNmJiZWQxY2U5NzM5OCJ9.M0NXmL_fHvbLgpXtsrUblJp-bhyzYlC4bCi6WcjOfbY',
+      authToken: authToken,
       habit: {
         name: 'Some task'
       }
