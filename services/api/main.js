@@ -2,12 +2,15 @@
 
 let express = require('express');
 let axios   = require('axios');
+let cors    = require('cors');
 
 let app = express();
 
 let authService   = process.env.AUTH_SERVICE_URL;
 let habitsService = process.env.HABITS_SERVICE_URL;
 let usersService  = process.env.USERS_SERVICE_URL;
+
+app.use(cors());
 
 app.get('/auth/authenticate', function(req, res) {
   axios
