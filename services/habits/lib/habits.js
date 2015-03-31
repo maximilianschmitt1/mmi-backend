@@ -11,6 +11,17 @@ let ResourceNotFoundError = createError('ResourceNotFoundError');
 let authService = process.env.AUTH_SERVICE_URL;
 
 let habits = {
+  list: function(payload) {
+    return co(function*() {
+      let authToken = payload.authToken;
+      let user = yield userForAuthToken(authToken);
+
+      let habits = yield db.collection('habits').find({ userId: user._id });
+
+      return habits;
+    });
+  },
+
   create: function(payload) {
     return co(function*() {
       let habit = sanitize.create(payload.habit);

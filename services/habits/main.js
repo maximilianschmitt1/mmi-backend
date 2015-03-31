@@ -5,6 +5,10 @@ let service = require('express-micro-service');
 
 let server = service(habits, [
   {
+    method: 'list',
+    returns: 'habits'
+  },
+  {
     method: 'create',
     returns: 'habit',
     catch: 'AuthenticationError'

@@ -51,16 +51,20 @@ app.get('/habits/delete', function(req, res) {
     .catch(err => res.status(err.status).json(err.data));
 });
 
+app.get('/habits', function(req, res) {
+  let authToken = req.headers['auth-token'];
+  axios
+    .post(habitsService + '/list', { authToken })
+    .then(response => res.json(response.data))
+    .catch(err => res.status(err.status).json(err.data));
+});
+
 app.post('/habits', function(req, res) {
   let authToken = req.headers['auth-token'];
+  let habit = req.body;
 
   axios
-    .post(habitsService + '/create', {
-      authToken: authToken,
-      habit: {
-        name: 'Some task'
-      }
-    })
+    .post(habitsService + '/create', { authToken, habit })
     .then(response => res.json(response.data))
     .catch(err => res.status(err.status).json(err.data));
 });
