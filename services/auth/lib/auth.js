@@ -19,7 +19,10 @@ let auth = {
         throw new AuthenticationError('Incorrect credentials');
       }
 
-      return jwt.encode({ id: user._id }, tokenSecret);
+      return {
+        authToken: jwt.encode({ id: user._id }, tokenSecret),
+        user: user
+      };
     });
   },
 

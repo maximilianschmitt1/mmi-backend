@@ -6,13 +6,13 @@ let service = require('express-micro-service');
 let server = service(auth, [
   {
     method: 'authenticate',
-    returns: 'authToken',
-    catch: 'AuthenticationError'
+    returns: ['authToken', 'user'],
+    throws: 'AuthenticationError'
   },
   {
     method: 'identify',
     returns: 'user',
-    catch: 'AuthenticationError'
+    throws: 'AuthenticationError'
   }
 ]);
 

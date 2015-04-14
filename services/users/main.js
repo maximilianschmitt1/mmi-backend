@@ -7,7 +7,7 @@ let server = service(users, [
   {
     method: 'create',
     returns: 'user',
-    catch: 'ValidationError'
+    throws: 'ValidationError'
   },
   {
     method: 'authenticate',
