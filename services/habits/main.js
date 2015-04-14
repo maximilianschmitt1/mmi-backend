@@ -1,12 +1,13 @@
 'use strict';
 
 let habits  = require('./lib/habits');
-let service = require('express-micro-service');
+let service = require('mirco');
 
 let server = service(habits, [
   {
     method: 'list',
-    returns: 'habits'
+    returns: 'habits',
+    throws: 'AuthenticationError'
   },
   {
     method: 'create',

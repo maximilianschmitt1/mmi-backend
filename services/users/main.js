@@ -1,7 +1,7 @@
 'use strict';
 
 let users   = require('./lib/users');
-let service = require('express-micro-service');
+let service = require('mirco');
 
 let server = service(users, [
   {
