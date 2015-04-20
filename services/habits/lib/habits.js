@@ -24,7 +24,12 @@ let habits = {
 
   create: function(payload) {
     return co(function*() {
+      console.log(payload.habit);
       let habit = sanitize.create(payload.habit);
+      console.log(habit);
+      habit.level = 1;
+      habit.xp = 0;
+
       let authToken = payload.authToken;
 
       let user = yield userForAuthToken(authToken);

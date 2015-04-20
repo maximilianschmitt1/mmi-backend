@@ -4,7 +4,8 @@ let sanee = require('sanee');
 
 let sanitize = {
   create: sanee({
-    name: sanee.trim().toString()
+    name: sanee.trim().toString(),
+    duration: sanee.toInt()
   }),
   update: sanee({
     name: sanee.trim().toString()
