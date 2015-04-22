@@ -11,6 +11,25 @@ let ResourceNotFoundError = createError('ResourceNotFoundError');
 let authService = process.env.AUTH_SERVICE_URL;
 
 let habits = {
+  activity: function(payload) {
+    return co(function*() {
+      const authToken = payload.authToken;
+      const habitId = payload.habitId;
+      const user = yield userForAuthToken(authToken);
+      const habits = db.collection('habits');
+      const habit = yield habits.findOne({ userId: user._id, _id: new db.ObjectID(habitId) });
+
+      const activity = sanitize.activity(payload.activity);
+      const now = new Date();
+      activity.time = now;
+      habit.activities['' + now.getFullYear() + now.getMonth() + now.getDay()] = activity;
+
+      yield habits.update({ _id: new db.ObjectID(habitId) }, habit);
+
+      return habits.findOne({ _id: new db.ObjectID(habitId) });
+    });
+  },
+
   list: function(payload) {
     return co(function*() {
       let authToken = payload.authToken;
@@ -18,17 +37,20 @@ let habits = {
 
       let habits = yield db.collection('habits').find({ userId: user._id });
 
+      habits.forEach(function(habit) {
+        habit.createdAt = (new db.ObjectID(habit._id)).getTimestamp();
+      });
+
       return habits;
     });
   },
 
   create: function(payload) {
     return co(function*() {
-      console.log(payload.habit);
       let habit = sanitize.create(payload.habit);
-      console.log(habit);
       habit.level = 1;
       habit.xp = 0;
+      habit.activities = {};
 
       let authToken = payload.authToken;
 

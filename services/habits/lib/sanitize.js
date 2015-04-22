@@ -3,6 +3,9 @@
 let sanee = require('sanee');
 
 let sanitize = {
+  activity: sanee({
+    type: sanee.trim().toString()
+  }),
   create: sanee({
     name: sanee.trim().toString(),
     duration: sanee.toInt()

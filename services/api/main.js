@@ -41,6 +41,17 @@ app.post('/users', function(req, res) {
     .catch(err => res.status(err.status).json(err.data));
 });
 
+app.post('/habits/:id/activity', function(req, res) {
+  const authToken = req.headers['auth-token'];
+  const habitId = req.params.id;
+  const activity = req.body;
+
+  axios
+    .post(habitsService + '/activity', { authToken, habitId, activity })
+    .then(response => res.json(response.data))
+    .catch(err => res.status(err.status).json(err.data));
+});
+
 app.get('/habits/delete', function(req, res) {
   axios
     .post(habitsService + '/delete', {
