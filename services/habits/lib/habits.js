@@ -1,16 +1,18 @@
 'use strict';
 
-let co                    = require('co');
-let axios                 = require('axios');
-let db                    = require('../db');
-let sanitize              = require('./sanitize');
-let createError           = require('create-error');
-let AuthorizationError    = createError('AuthorizationError');
-let ResourceNotFoundError = createError('ResourceNotFoundError');
+const co                    = require('co');
+const axios                 = require('axios');
+const db                    = require('../db');
+const sanitize              = require('./sanitize');
+const createError           = require('create-error');
+const values                = require('object-values');
+const level                 = require('./level');
+const AuthorizationError    = createError('AuthorizationError');
+const ResourceNotFoundError = createError('ResourceNotFoundError');
 
-let authService = process.env.AUTH_SERVICE_URL;
+const authService = process.env.AUTH_SERVICE_URL;
 
-let habits = {
+const habits = {
   activity: function(payload) {
     return co(function*() {
       const authToken = payload.authToken;
@@ -22,6 +24,7 @@ let habits = {
       const activity = sanitize.activity(payload.activity);
       const now = new Date();
       activity.time = now;
+      activity.xp = 100;
       habit.activities['' + now.getFullYear() + now.getMonth() + now.getDay()] = activity;
 
       yield habits.update({ _id: new db.ObjectID(habitId) }, habit);
@@ -35,11 +38,7 @@ let habits = {
       let authToken = payload.authToken;
       let user = yield userForAuthToken(authToken);
 
-      let habits = yield db.collection('habits').find({ userId: user._id });
-
-      habits.forEach(function(habit) {
-        habit.createdAt = (new db.ObjectID(habit._id)).getTimestamp();
-      });
+      let habits = (yield db.collection('habits').find({ userId: user._id })).map(prepareHabit);
 
       return habits;
     });
@@ -48,8 +47,6 @@ let habits = {
   create: function(payload) {
     return co(function*() {
       let habit = sanitize.create(payload.habit);
-      habit.level = 1;
-      habit.xp = 0;
       habit.activities = {};
 
       let authToken = payload.authToken;
@@ -83,11 +80,7 @@ let habits = {
         throw new AuthorizationError('This habit does not belong to you');
       }
 
-      try {
-        yield habits.remove({ _id: new db.ObjectID(habitId) });
-      } catch(err) {
-        console.log(err);
-      }
+      yield habits.remove({ _id: new db.ObjectID(habitId) });
 
       return habit;
     });
@@ -123,6 +116,13 @@ function userForAuthToken(authToken) {
   return axios
     .post(authService + '/identify', { authToken })
     .then(res => res.data.user);
+}
+
+function prepareHabit(habit) {
+  habit.createdAt = (new db.ObjectID(habit._id)).getTimestamp();
+  habit.xp = values(habit.activities).reduce((last, curr) => last + curr.xp, 0);
+  habit.level = level.fromXp(habit.xp);
+  return habit;
 }
 
 module.exports = habits;

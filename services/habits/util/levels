@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+'use strict';
+
+const level = require('../lib/level');
+
+for (var i = 0; i <= 30; i++) {
+  let l = level(i);
+  console.log('' + pad(i, 2) + '   ' + pad(l.xp / 100, 3) + '   ' + pad(l.xpToNextLevel / 100, 3));
+}
+
+function pad(num, amount) {
+  let length = ('' + num).length;
+  if (length >= amount) {
+    return num;
+  }
+
+  let padded = num;
+  for (let i = 0; i < amount-length; i++) {
+    padded = ' ' + padded;
+  }
+
+  return padded;
+}
