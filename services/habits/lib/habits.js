@@ -131,6 +131,7 @@ function prepareHabit(habit) {
   habit.createdAt = (new db.ObjectID(habit._id)).getTimestamp();
   habit.xp = values(habit.activities).reduce((last, curr) => last + curr.xp, 0);
   habit.level = level.fromXp(habit.xp);
+  habit.duration = 66;
   return habit;
 }
 
