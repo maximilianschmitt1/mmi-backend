@@ -17,7 +17,7 @@ let server = service(habits, [
   {
     method: 'create',
     returns: 'habit',
-    throws: 'AuthenticationError'
+    throws: ['ValidationError', 'AuthenticationError']
   },
   {
     method: 'delete',

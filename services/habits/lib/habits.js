@@ -4,11 +4,13 @@ const co                    = require('co');
 const axios                 = require('axios');
 const db                    = require('../db');
 const sanitize              = require('./sanitize');
+const validate              = require('./validate');
 const createError           = require('create-error');
 const values                = require('object-values');
 const moment                = require('moment');
 const level                 = require('./level');
 const AuthorizationError    = createError('AuthorizationError');
+const ValidationError       = createError('ValidationError');
 const ResourceNotFoundError = createError('ResourceNotFoundError');
 
 const authService = process.env.AUTH_SERVICE_URL;
@@ -56,8 +58,12 @@ const habits = {
   create: function(payload) {
     return co(function*() {
       let habit = sanitize.create(payload.habit);
-      habit.activities = {};
+      
+      if (Object.keys(validate.habit(payload.habit)).length > 0)  {
+        throw new ValidationError();
+      }
 
+      habit.activities = {};
       let authToken = payload.authToken;
 
       let user = yield userForAuthToken(authToken);
