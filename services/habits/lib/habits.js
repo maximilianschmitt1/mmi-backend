@@ -6,6 +6,7 @@ const db                    = require('../db');
 const sanitize              = require('./sanitize');
 const createError           = require('create-error');
 const values                = require('object-values');
+const moment                = require('moment');
 const level                 = require('./level');
 const AuthorizationError    = createError('AuthorizationError');
 const ResourceNotFoundError = createError('ResourceNotFoundError');
@@ -25,7 +26,7 @@ const habits = {
       const now = new Date();
       activity.time = now;
       activity.xp = 100;
-      habit.activities['' + now.getFullYear() + now.getMonth() + now.getDay()] = activity;
+      habit.activities[moment(now).format('YYYYMMDD')] = activity;
 
       yield habits.update({ _id: new db.ObjectID(habitId) }, habit);
 
@@ -38,10 +39,18 @@ const habits = {
       let authToken = payload.authToken;
       let user = yield userForAuthToken(authToken);
 
-      let habits = (yield db.collection('habits').find({ userId: user._id })).map(prepareHabit);
+      let habits = (yield db.collection('habits').find({ userId: user._id })).map(prepareHabit).sort(sortHabits);
 
       return habits;
     });
+
+    function sortHabits(a, b) {
+      if (moment(a.createdAt).isBefore(moment(b.createdAt))) {
+        return -1;
+      }
+
+      return 1;
+    }
   },
 
   create: function(payload) {
