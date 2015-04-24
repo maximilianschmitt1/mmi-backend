@@ -25,7 +25,7 @@ const habits = {
       const activity = sanitize.activity(payload.activity);
       const now = new Date();
       activity.time = now;
-      activity.xp = 100;
+      activity.xp = activity.type === 'success' ? 100 : 0;
       habit.activities[moment(now).format('YYYYMMDD')] = activity;
 
       yield habits.update({ _id: new db.ObjectID(habitId) }, habit);
