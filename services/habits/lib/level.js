@@ -4,7 +4,7 @@ const level = function(level) {
   return {
     value: level,
     xp: xpFor(level),
-    xpToNextLevel: xpFor(level + 1) - xpFor(level)
+    xpForNextLevel: xpFor(level + 1)
   };
 };
 
