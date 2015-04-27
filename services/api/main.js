@@ -52,12 +52,12 @@ app.post('/habits/:id/activity', function(req, res) {
     .catch(err => res.status(err.status).json(err.data));
 });
 
-app.get('/habits/delete', function(req, res) {
+app.delete('/habits/:id', function(req, res) {
+  const authToken = req.headers['auth-token'];
+  const habitId = req.params.id;
+
   axios
-    .post(habitsService + '/delete', {
-      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MGEzNDljOWNjNmJiZWQxY2U5NzM5OCJ9.M0NXmL_fHvbLgpXtsrUblJp-bhyzYlC4bCi6WcjOfbY',
-      habitId: '5509ca71604e63f71f437204'
-    })
+    .post(habitsService + '/delete', { authToken, habitId })
     .then(response => res.json(response.data))
     .catch(err => res.status(err.status).json(err.data));
 });
