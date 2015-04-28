@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# set timezone
+echo 'Europe/Berlin' | sudo tee /etc/timezone
+sudo dpkg-reconfigure -f noninteractive tzdata
+
 sudo apt-get update
 # common dependencies
 sudo apt-get install -y curl build-essential git-core

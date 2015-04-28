@@ -1,20 +1,22 @@
-# dependencies
+# Habit Backend
+
+## Dependencies
 
 * [virtualbox](https://www.vagrantup.com/downloads.html)
 * [vagrant](https://www.vagrantup.com/)
 
-# installation
+## Installation
 
-```bash
-git clone https://github.com/maximilianschmitt1/mmi-backend
-cd mmi-backend
-vagrant up
+```
+$ git clone https://github.com/maximilianschmitt1/mmi-backend
+$ cd mmi-backend
+$ vagrant up
 ```
 
-# start
+## Start
 
-```bash
-vagrant ssh
-cd /var/www/app
-pm2 start ecosystem.json
+```
+$ vagrant ssh
+$ cd /var/www/app
+$ pm2 start ecosystem.json
 ```
