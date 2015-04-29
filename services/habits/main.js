@@ -15,6 +15,11 @@ let server = service(habits, [
     throws: 'AuthenticationError'
   },
   {
+    method: 'get',
+    returns: 'habit',
+    throws: 'AuthenticationError'
+  },
+  {
     method: 'create',
     returns: 'habit',
     throws: ['ValidationError', 'AuthenticationError']

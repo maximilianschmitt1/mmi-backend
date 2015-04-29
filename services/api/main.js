@@ -62,6 +62,16 @@ app.delete('/habits/:id', function(req, res) {
     .catch(err => res.status(err.status).json(err.data));
 });
 
+app.get('/habits/:id', function(req, res) {
+  const authToken = req.headers['auth-token'];
+  const habitId = req.params.id;
+
+  axios
+    .post(habitsService + '/get', { authToken, habitId })
+    .then(response => res.json(response.data))
+    .catch(err => res.status(err.status).json(err.data));
+});
+
 app.get('/habits', function(req, res) {
   let authToken = req.headers['auth-token'];
   axios
@@ -80,15 +90,13 @@ app.post('/habits', function(req, res) {
     .catch(err => res.status(err.status).json(err.data));
 });
 
-app.get('/habits/update', function(req, res) {
+app.put('/habits/:id', function(req, res) {
+  const authToken = req.headers['auth-token'];
+  const habitId = req.params.id;
+  const habit = req.body;
+
   axios
-    .post(habitsService + '/update', {
-      authToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU1MGEzNDljOWNjNmJiZWQxY2U5NzM5OCJ9.M0NXmL_fHvbLgpXtsrUblJp-bhyzYlC4bCi6WcjOfbY',
-      habitId: '5509ca62604e63f71f437203',
-      habit: {
-        name: 'Edited habit'
-      }
-    })
+    .post(habitsService + '/update', { authToken, habitId, habit })
     .then(response => res.json(response.data))
     .catch(err => res.status(err.status).json(err.data));
 });

@@ -16,6 +16,17 @@ const ResourceNotFoundError = createError('ResourceNotFoundError');
 const authService = process.env.AUTH_SERVICE_URL;
 
 const habits = {
+  get: function(payload) {
+    return co(function*() {
+      const authToken = payload.authToken;
+      const habitId = payload.habitId;
+      const user = yield userForAuthToken(authToken);
+      const habits = db.collection('habits');
+      const habit = yield habits.findOne({ userId: user._id, _id: new db.ObjectID(habitId) });
+
+      return prepareHabit(habit);
+    });
+  },
   activity: function(payload) {
     return co(function*() {
       const authToken = payload.authToken;
