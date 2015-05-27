@@ -7,8 +7,22 @@ let thenifyAll = require('thenify-all');
 let bcrypt     = thenifyAll(require('bcrypt'));
 let db         = require('../db');
 let omit       = require('object.omit');
+let axios      = require('axios');
+
+const authService = process.env.AUTH_SERVICE_URL;
 
 let users = {
+  update: function(payload) {
+    return co(function*() {
+      const user = yield userForAuthToken(payload.authToken);
+      const userData = sanitize.update(payload.user);
+
+      const users = db.collection('users');
+      const result = yield users.update({ _id: new db.ObjectID(user._id) }, userData);
+
+      return omit(result[0], 'password');
+    });
+  },
   create: function(payload) {
     return co(function*() {
       let userData = sanitize.creation(payload.user);
@@ -35,6 +49,10 @@ let users = {
       return omit(user, 'password');
     });
   },
+  list: function(payload) {
+    const users = db.collection('users');
+    return users.find(payload.where || {}).then(users => users.map(user => omit(user, 'password')));
+  },
   get: function(payload) {
     return co(function*() {
       let userId = sanitize.get(payload.userId);
@@ -49,5 +67,11 @@ let users = {
     });
   }
 };
+
+function userForAuthToken(authToken) {
+  return axios
+    .post(authService + '/identify', { authToken })
+    .then(res => res.data.user);
+}
 
 module.exports = users;

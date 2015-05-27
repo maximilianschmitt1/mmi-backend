@@ -41,6 +41,16 @@ app.post('/users', function(req, res) {
     .catch(err => res.status(err.status).json(err.data));
 });
 
+app.put('/users', function(req, res) {
+  const authToken = req.headers['auth-token'];
+  const user = req.body;
+
+  axios
+    .post(usersService + '/update', { authToken, user })
+    .then(response => res.json(response.data))
+    .catch(err => res.status(err.status).json(err.data));
+});
+
 app.post('/habits/:id/activity', function(req, res) {
   const authToken = req.headers['auth-token'];
   const habitId = req.params.id;

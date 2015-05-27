@@ -46,7 +46,9 @@ const habits = {
       return habits.findOne({ _id: new db.ObjectID(habitId) });
     });
   },
-
+  habitsForUser: function(payload) {
+    return db.collection('habits').find({ userId: payload.userId });
+  },
   list: function(payload) {
     return co(function*() {
       let authToken = payload.authToken;

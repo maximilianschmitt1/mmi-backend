@@ -1,6 +1,17 @@
 {
   "apps" : [
     {
+      "name": "reminder",
+      "script": "services/reminder/main.js",
+      "node_args": ["--es_staging", "--harmony_arrow_functions"],
+      "env": {
+        "MANDRILL_API_KEY": "30jUbsMLpFH4dClAXDibsg",
+        "USERS_SERVICE_URL": "http://localhost:5003",
+        "HABITS_SERVICE_URL": "http://localhost:5002",
+        "APP_URL": "http://localhost:3000"
+      }
+    },
+    {
       "name": "api",
       "script": "services/api/main.js",
       "node_args": ["--es_staging", "--harmony_arrow_functions"],

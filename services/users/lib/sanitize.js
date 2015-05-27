@@ -3,6 +3,9 @@
 let sanee = require('sanee');
 
 let sanitize = {
+  update: sanee({
+    remind: sanee.toBoolean()
+  }),
   creation: sanee({
     email: sanee.trim().normalizeEmail({ lowercase: true }),
     password: sanee.toString(),

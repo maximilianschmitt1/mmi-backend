@@ -5,6 +5,10 @@ let service = require('mirco');
 
 let server = service(habits, [
   {
+    method: 'habitsForUser',
+    returns: 'habits'
+  },
+  {
     method: 'activity',
     returns: 'activity',
     throws: 'AuthenticationError'

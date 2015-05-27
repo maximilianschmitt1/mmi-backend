@@ -5,6 +5,15 @@ let service = require('mirco');
 
 let server = service(users, [
   {
+    method: 'list',
+    returns: 'users'
+  },
+  {
+    method: 'update',
+    returns: 'user',
+    throws: ['ValidationError', 'AuthenticationError']
+  },
+  {
     method: 'create',
     returns: 'user',
     throws: 'ValidationError'

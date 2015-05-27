@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "axios": "^0.5.2",
+    "axios": "^0.5.4",
     "bcrypt": "^0.8.1",
     "co": "^4.4.0",
     "create-error": "^0.3.1",
