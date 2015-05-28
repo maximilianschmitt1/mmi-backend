@@ -18,9 +18,10 @@ let users = {
       const userData = sanitize.update(payload.user);
 
       const users = db.collection('users');
-      const result = yield users.update({ _id: new db.ObjectID(user._id) }, userData);
+      yield users.update({ _id: new db.ObjectID(user._id) }, userData);
+      const result = yield users.findOne({ _id: new db.ObjectID(user._id) });
 
-      return omit(result[0], 'password');
+      return omit(result, 'password');
     });
   },
   create: function(payload) {
@@ -29,6 +30,7 @@ let users = {
       yield validate.creation(userData);
 
       userData.password = yield bcrypt.hash(userData.password, yield bcrypt.genSalt(10));
+      userData.remind = true;
 
       let users = db.collection('users');
       let result = yield users.insert(omit(userData, 'passwordConfirmation'));
