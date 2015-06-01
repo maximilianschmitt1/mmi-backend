@@ -12,6 +12,7 @@
 * `vagrant up`
 * `vagrant ssh`
 * `cd /var/www/app`
+* Beim ersten Start nach der Installation: `./install.sh`
 * `pm2 start ecosystem.json`
 
 ## Konfiguration
