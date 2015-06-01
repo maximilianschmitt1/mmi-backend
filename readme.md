@@ -6,16 +6,13 @@
 * [Vagrant](https://www.vagrantup.com/) installieren
 * `git clone https://github.com/maximilianschmitt1/mmi-backend`
 * `cd mmi-backend`
-```
 
 ## Backend starten
 
-```
 * `vagrant up`
 * `vagrant ssh`
 * `cd /var/www/app`
 * `pm2 start ecosystem.json`
-```
 
 ## Konfiguration
 
