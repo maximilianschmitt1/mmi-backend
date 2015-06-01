@@ -29,10 +29,6 @@ sudo service nginx reload
 # install node.js
 curl -sL https://deb.nodesource.com/setup_iojs_1.x | sudo bash -
 sudo apt-get install -y iojs
-# sudo apt-get install -y python-software-properties
-# sudo apt-add-repository -y ppa:chris-lea/node.js
-# sudo apt-get update
-# sudo apt-get install -y nodejs
 sudo chown -R $USER ~/.npm
 
 # install mongodb
