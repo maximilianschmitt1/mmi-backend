@@ -31,6 +31,9 @@ curl -sL https://deb.nodesource.com/setup_iojs_1.x | sudo bash -
 sudo apt-get install -y iojs
 sudo chown -R $USER ~/.npm
 
+# install pm2
+npm i pm2 -g
+
 # install mongodb
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
